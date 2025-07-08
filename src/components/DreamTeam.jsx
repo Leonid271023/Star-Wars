@@ -1,4 +1,5 @@
 import {friend} from '../utils/components.js';
+import Friend from "./Friend.jsx";
 const DreamTeam = () => {
     return (
         <section className={"float-end w-50 row border rounded-bottom-4 ms-0 me-2"}>
