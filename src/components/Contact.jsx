@@ -9,12 +9,22 @@ const Contact = () => {
         const res = await fetch(`${base_URL}/v1/planets`);
         const data = await res.json();
         setPlanets(data.map(item => item.name));
-
+        sessionStorage.setItem("planets", JSON.stringify(data));
     }
 
     useEffect(() => {
-        getPlanets().then(() => console.log('Planets were loaded'));
-    }, [])
+        const storedPlanets = sessionStorage.getItem("planets");
+
+        if (storedPlanets) {
+            // אם כבר קיימים - להשתמש במה שנשמר
+            const parsed = JSON.parse(storedPlanets);
+            setPlanets(parsed.map(item => item.name));
+            console.log("Loaded planets from sessionStorage");
+        } else {
+            // אחרת - להביא מהשרת ולשמור
+            getPlanets().then(() => console.log("Fetched planets from API"));
+        }
+    }, []);
 
 
     return (
