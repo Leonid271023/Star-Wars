@@ -5,7 +5,14 @@ const AboutMe = () => {
     const [AboutMe, setAboutMe] = React.useState({});
     useEffect(() => {
 
-        const Luke = sessionStorage.getItem("infoPerson");
+        const Luke = localStorage.getItem("infoPerson");
+        const test = localStorage.getItem("time");
+        const now = Date.now();
+        const oneMonth = 1000 * 60 * 60 * 24 * 30;
+        if (now - test > oneMonth) {
+            localStorage.removeItem("infoPerson");
+            localStorage.removeItem("time");
+        }
         if (Luke) {
             const Parse = JSON.parse(Luke);
             setAboutMe({
@@ -25,7 +32,9 @@ const AboutMe = () => {
                         hair_color: data.hair_color,
                         birth_year: data.birth_year,
                     })
-                    sessionStorage.setItem('infoPerson', JSON.stringify(data))
+                    localStorage.setItem('infoPerson', JSON.stringify(data))
+                    const now = Date.now();
+                    localStorage.setItem("time", JSON.stringify({now}));
                 })
         }
     }, []);

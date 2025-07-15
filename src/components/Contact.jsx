@@ -8,46 +8,47 @@ const Contact = () => {
     async function getPlanets() {
         const res = await fetch(`${base_URL}/v1/planets`);
         const data = await res.json();
-        setPlanets(data.map(item => item.name));
-        sessionStorage.setItem("planets", JSON.stringify(data));
+        const planets = data.map(item => item.name);
+        setPlanets(planets);
+        localStorage.setItem('planets', JSON.stringify({
+            payload: planets,
+            time: Date.now()
+        }));
     }
 
     useEffect(() => {
-        const storedPlanets = sessionStorage.getItem("planets");
+        const planets = JSON.parse(localStorage.getItem('planets'));
+        const month = 30 * 24 * 60 * 60 * 1000;
 
-        if (storedPlanets) {
-            // אם כבר קיימים - להשתמש במה שנשמר
-            const parsed = JSON.parse(storedPlanets);
-            setPlanets(parsed.map(item => item.name));
-            console.log("Loaded planets from sessionStorage");
+        if (planets && (Date.now() - planets.time < month)) {
+            setPlanets(planets.payload);
         } else {
-            // אחרת - להביא מהשרת ולשמור
-            getPlanets().then(() => console.log("Fetched planets from API"));
+            getPlanets().then(() => console.log('Planets were loaded'));
         }
-    }, []);
-
+    }, [])
 
     return (
-
-        <form className='container' onSubmit={e => e.preventDefault()}>
-
-            <label>First Name</label>
-            <input type="text" placeholder="Your name.."/>
-
-            <label>Last Name</label>
-            <input type="text" placeholder="Your last name.."/>
-
-            <label>Planet</label>
-            <select name='planet'>
-                {planets.map(item => <option value={item} key={item}>{item}</option>)}
-            </select>
+        <form className="container" onSubmit={e => {
+            e.preventDefault();
+        }}>
+            <label>First Name
+                <input type="text" name="firstname" placeholder="Your name.."/>
+            </label>
+            <label>Last Name
+                <input type="text" name="lastname" placeholder="Your last name.."/>
+            </label>
+            <label>Planet
+                <select name="planet">
+                    {planets.map(item => <option value={item} key={item}>{item}</option>)}
+                </select>
+            </label>
 
             <label>Subject
-                <textarea placeholder="Write something.."></textarea>
+                <textarea name="subject" placeholder="Write something.."></textarea>
             </label>
-            <button type={'submit'}>Submit</button>
+            <button type="submit">Submit</button>
         </form>
-    );
+    )
 };
 
 export default Contact;
