@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {base_URL, openingCrawl} from "../utils/components.js";
+import {base_URL} from "../utils/components.js";
 
 const OpeningCrawl = () => {
     const [OpeningCrawl, setOpeningCrawl] = useState('')
@@ -18,7 +18,7 @@ const OpeningCrawl = () => {
                 });
         }
     }, [])
-    if (openingCrawl) {
+    if (OpeningCrawl) {
         return (
             <p className={"farGalaxy"}>
                 {OpeningCrawl}
