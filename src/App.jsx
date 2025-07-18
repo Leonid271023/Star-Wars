@@ -1,23 +1,28 @@
 import './App.css'
 import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
 import Main from "./components/Main.jsx";
+import Footer from "./components/Footer.jsx";
 import {useState} from "react";
-import {navItems, StarWarsContext} from "./utils/components.js";
+import {navItems} from "./utils/components.js";
+import {SWContext} from "./utils/contex.js";
 
 
 function App() {
     const [page, setPage] = useState(navItems[0]);
 
+
     return (
-        <StarWarsContext value={{changePage: setPage}}>
-            <div className={'container-fluid'}>
+        <div>
+            <SWContext value={{page, changePage: setPage}}>
                 <Header/>
-                <Main page={page}/>
+                <Main/>
                 <Footer/>
-            </div>
-        </StarWarsContext>
+            </SWContext>
+        </div>
+
+
     )
 }
+
 
 export default App

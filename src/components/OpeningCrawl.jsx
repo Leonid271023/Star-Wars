@@ -1,38 +1,32 @@
 import {useEffect, useState} from "react";
-import {base_URL} from "../utils/components.js";
+import {base_url} from "../utils/components.js";
+import Text from "./ui/Text.jsx";
+
 
 const OpeningCrawl = () => {
-    const [OpeningCrawl, setOpeningCrawl] = useState('')
+    const [openingCrawl, setOpeningCrawl] = useState('Loading...');
+
 
     useEffect(() => {
-        const opening_crawl = sessionStorage.getItem("opening_crawl");
-        if(opening_crawl) {
+        const opening_crawl = sessionStorage.getItem('opening_crawl');
+        if (opening_crawl) {
             setOpeningCrawl(opening_crawl);
-        }else {
+        } else {
             const episode = Math.floor(Math.random() * 6) + 1;
-            fetch(`${base_URL}/v1/films/${episode}`)
+            fetch(`${base_url}/v1/films/${episode}`)
                 .then(res => res.json())
                 .then(data => {
-                    setOpeningCrawl(data.opening_crawl)
-                    sessionStorage.setItem("opening_crawl", data.opening_crawl);
+                    setOpeningCrawl(data.opening_crawl);
+                    sessionStorage.setItem('opening_crawl', data.opening_crawl);
                 });
         }
     }, [])
-    if (OpeningCrawl) {
-        return (
-            <p className={"farGalaxy"}>
-                {OpeningCrawl}
-            </p>
-        )
-    } else {
-        return (
-            <p className={'farGalaxy'}>
-                <span className={'spinner-border spinner-border-sm'}></span>
-                Loading...
-            </p>
-        )
-    }
 
-};
+
+    return (
+        <Text>{openingCrawl}</Text>
+    )
+}
+
 
 export default OpeningCrawl;

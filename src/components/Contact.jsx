@@ -1,12 +1,13 @@
-import '../Contact.css'
 import {useEffect, useState} from "react";
-import {base_URL} from "../utils/components.js";
+import {base_url, period_month} from "../utils/components.js";
+
 
 const Contact = () => {
     const [planets, setPlanets] = useState(['wait...']);
 
+
     async function getPlanets() {
-        const res = await fetch(`${base_URL}/v1/planets`);
+        const res = await fetch(`${base_url}/v1/planets`);
         const data = await res.json();
         const planets = data.map(item => item.name);
         setPlanets(planets);
@@ -16,39 +17,47 @@ const Contact = () => {
         }));
     }
 
+
     useEffect(() => {
         const planets = JSON.parse(localStorage.getItem('planets'));
-        const month = 30 * 24 * 60 * 60 * 1000;
-
-        if (planets && (Date.now() - planets.time < month)) {
+        if (planets && ((Date.now() - planets.time) < period_month)) {
             setPlanets(planets.payload);
         } else {
             getPlanets().then(() => console.log('Planets were loaded'));
         }
     }, [])
 
+
     return (
-        <form className="container" onSubmit={e => {
+        <form className={`w-4/5 my-0 mx-auto rounded-[5px] bg-[#f2f2f2] p-5`} onSubmit={(e) => {
             e.preventDefault();
         }}>
-            <label>First Name
-                <input type="text" name="firstname" placeholder="Your name.."/>
+            <label className={`w-full text-red-color`}>First Name
+                <input className={`text-black border w-full p-3 border-[#ccc] rounded-[4px] mt-1.5 mb-4 resize-y`} type="text"
+                       name="firstname" placeholder="Your first name..."/>
             </label>
-            <label>Last Name
-                <input type="text" name="lastname" placeholder="Your last name.."/>
+            <label className={`w-full text-red-color`}>Last Name
+                <input className={`text-black border w-full p-3 border-[#ccc] rounded-[4px] mt-1.5 mb-4 resize-y`} type="text"
+                       name="lastname" placeholder="Your last name..."/>
             </label>
-            <label>Planet
-                <select name="planet">
-                    {planets.map(item => <option value={item} key={item}>{item}</option>)}
+            <label className={`w-full text-red-color`}>Planet
+                <select className={`border w-full text-black p-3 border-[#ccc] rounded-[4px] mt-1.5 mb-4 resize-y`}
+                        name="planet">{
+                    planets.map(item => <option value={item} key={item}>{item}</option>)
+                }
                 </select>
             </label>
-
-            <label>Subject
-                <textarea name="subject" placeholder="Write something.."></textarea>
+            <label className={`w-full text-red-color`}>Subject
+                <textarea className={`text-black border h-52 w-full p-3 border-[#ccc] rounded-[4px] mt-1.5 mb-4 resize-y`}
+                          name="subject" placeholder="Write something..."/>
             </label>
-            <button type="submit">Submit</button>
+            <button
+                className={`bg-[#4CAF50] text-white py-3 px-5 border-none rounded-[4px] cursor-pointer hover:bg-[#45a049]`}
+                type="submit">Submit
+            </button>
         </form>
     )
 };
+
 
 export default Contact;

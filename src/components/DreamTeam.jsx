@@ -1,12 +1,15 @@
-import {friend} from '../utils/components.js';
+import {friends} from "../utils/components.js";
 import Friend from "./Friend.jsx";
+
+
 const DreamTeam = () => {
     return (
-        <section className={"float-end w-50 row border rounded-bottom-4 ms-0 me-2"}>
-            <h2 className={"col-12 text-center"}>Dream team</h2>
-            {friend.map((f, i) => <Friend picture={f} key={i} pos={i+1}/>)}
+        <section className="float-right w-1/2 border rounded-b-2xl mr-0 ml-2 grid grid-cols-3 gap-1">
+            <h2 className="text-center col-span-3 text-2xl">Dream team</h2>
+            {friends.map((f, i) => <Friend picture={f} key={i} pos={i + 1} />)}
         </section>
     );
 };
+
 
 export default DreamTeam;

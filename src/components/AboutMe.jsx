@@ -1,54 +1,49 @@
-import React, {useEffect} from "react";
-import {base_URL} from "../utils/components.js";
+import {base_url, period_month} from "../utils/components.js";
+import {useEffect, useState} from "react";
+
 
 const AboutMe = () => {
-    const [AboutMe, setAboutMe] = React.useState({});
+    const [hero, setHero] = useState();
     useEffect(() => {
-
-        const Luke = localStorage.getItem("infoPerson");
-        const test = localStorage.getItem("time");
-        const now = Date.now();
-        const oneMonth = 1000 * 60 * 60 * 24 * 30;
-        if (now - test > oneMonth) {
-            localStorage.removeItem("infoPerson");
-            localStorage.removeItem("time");
-        }
-        if (Luke) {
-            const Parse = JSON.parse(Luke);
-            setAboutMe({
-                name: Parse.name,
-                gender: Parse.gender,
-                hair_color: Parse.hair_color,
-                birth_year: Parse.birth_year,
-            });
+        const hero = JSON.parse(localStorage.getItem("hero"));
+        if (hero && ((Date.now() - hero.timestamp) < period_month)) {
+            setHero(hero.payload);
         } else {
-
-            fetch(`${base_URL}/v1/peoples/1`)
-                .then(res => res.json())
+            fetch(`${base_url}/v1/peoples/1`)
+                .then(response => response.json())
                 .then(data => {
-                    setAboutMe({
+                    const info = {
                         name: data.name,
                         gender: data.gender,
-                        hair_color: data.hair_color,
                         birth_year: data.birth_year,
-                    })
-                    localStorage.setItem('infoPerson', JSON.stringify(data))
-                    const now = Date.now();
-                    localStorage.setItem("time", JSON.stringify({now}));
+                        height: data.height,
+                        mass: data.mass,
+                        hair_color: data.hair_color,
+                        skin_color: data.skin_color,
+                        eye_color: data.eye_color
+                    }
+                    setHero(info);
+                    localStorage.setItem("hero", JSON.stringify({
+                        payload: info,
+                        timestamp: Date.now()
+                    }));
                 })
         }
-    }, []);
+    }, [])
+
 
     return (
-        <div>
-            <h3>
-                Name: {AboutMe.name} <br/>
-                Gender: {AboutMe.gender} <br/>
-                Hair color: {AboutMe.hair_color} <br/>
-                Birth Year: {AboutMe.birth_year} <br/>
-            </h3>
-        </div>
+        <>
+            {(!!hero) &&
+                <div className={'text-[2em] text-justify tracking-widest leading-14 ml-8'}>
+                    {Object.keys(hero).map(key => <p key={key}>
+                        <span className={'text-3xl capitalize'}>{key.replace('_', ' ')}</span>: {hero[key]}
+                    </p>)}
+                </div>
+            }
+        </>
     );
 };
+
 
 export default AboutMe;

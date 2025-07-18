@@ -1,9 +1,16 @@
-const NavItem = ({itemTitle, changePage}) => {
+import Button from "./ui/Button.jsx";
+import {useContext} from "react";
+import {SWContext} from "../utils/contex.js";
+
+
+const NavItem = ({itemTitle}) => {
+    const {changePage} = useContext(SWContext);
+
+
     return (
-        <div>
-            <li onClick={()=> changePage(itemTitle)} className={"nav-item btn btn-danger mx-1"}>{itemTitle}</li>
-        </div>
-    );
-};
+        <Button callback={() => changePage(itemTitle)}>{itemTitle}</Button>
+    )
+}
+
 
 export default NavItem;

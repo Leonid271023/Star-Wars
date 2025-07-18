@@ -1,16 +1,14 @@
 import NavItem from "./NavItem.jsx";
-import {navItems, StarWarsContext} from "../utils/components.js";
-import {useContext} from "react";
+import {navItems} from "../utils/components.js";
+
 
 const Navigation = () => {
-    const {changePage} = useContext(StarWarsContext);
     return (
-        <nav className={'fixed-top mt-2 ms-5'}>
-            <ul className={'nav'}>
-                {navItems.map(item => <NavItem changePage={changePage} key={item} itemTitle={item}/>)}
-            </ul>
+        <nav className="fixed top-1 left-12 flex gap-4">
+            {navItems.map(item => <NavItem itemTitle={item} key={item}/>)}
         </nav>
     );
 };
+
 
 export default Navigation;

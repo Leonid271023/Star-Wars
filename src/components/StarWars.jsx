@@ -1,11 +1,12 @@
-import {StarWarsInfo} from "../utils/components.js";
+import {starWarsInfo} from "../utils/components.js";
+import Text from "./ui/Text.jsx";
+
 
 const StarWars = () => {
     return (
-        <div className={'farGalaxy'}>
-            {StarWarsInfo}
-        </div>
+        <Text>{starWarsInfo}</Text>
     );
 };
+
 
 export default StarWars;

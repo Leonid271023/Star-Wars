@@ -1,11 +1,14 @@
+import Button from "./ui/Button.jsx";
+
+
 const Footer = () => {
     return (
-        <footer className={'py-5 rounded-bottom-4 row align-items-center m-0'}>
-            <div className={"btn btn-danger col-sm-2 offset-2"}>
-                <p className={"m-0"}>Send me an <span className={"text-dark text-uppercase"}>email</span></p>
-            </div>
+        <footer className="clear-both bg-grey-color h-20 rounded-b-2xl grid grid-cols-7 items-center">
+            <Button className={'col-start-3'}>Send me an <span
+                className={'text-black uppercase'}>email</span></Button>
         </footer>
     );
 };
+
 
 export default Footer;
